@@ -27,7 +27,7 @@ public class UsuarioController {
         this.usuarioServiceImpl = usuarioServiceImpl;
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/eliminar-usuario/{id}")
     public ResponseEntity<String> eliminarPorId(@PathVariable("id") Long id) {
         boolean verificar = this.usuarioServiceImpl.eliminarUsuario(id);
         if (verificar) {
@@ -51,7 +51,7 @@ public class UsuarioController {
     }
     
     
-    @PutMapping("/{id}")
+    @PutMapping("/actualizar-informacion/{id}")
     public ResponseEntity<Usuario> actualizarUsuario(@PathVariable Long id, @RequestBody Usuario usuarioActualizado) {
         if (usuarioActualizado == null) {
             return ResponseEntity.badRequest().body(null); // Retorna un 400 si el usuario no está presente

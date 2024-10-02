@@ -4,6 +4,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,7 +18,7 @@ public class FileUploadControllerVideo {
     private static final String UPLOAD_DIR = "./uploads/video";  // Carpeta donde se guardarán los archivos
 
     @PostMapping
-    public String uploadFile(@RequestParam("video") MultipartFile file) {
+    public ResponseEntity<String> uploadFile(@RequestParam("video") MultipartFile file) {
         try {
             // Asegurarse de que la carpeta existe
             Path uploadPath = Paths.get(UPLOAD_DIR);
@@ -29,10 +31,10 @@ public class FileUploadControllerVideo {
             Path filePath = uploadPath.resolve(fileName);
             Files.copy(file.getInputStream(), filePath);
 
-            return "Archivo guardado en: " + filePath.toString();
+            return ResponseEntity.ok("Archivo guardado en: " + filePath.toString()) ;
         } catch (IOException e) {
             e.printStackTrace();
-            return "Error al subir el archivo.";
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error al subir el archivo." + e.getMessage());
         }
     }
 }

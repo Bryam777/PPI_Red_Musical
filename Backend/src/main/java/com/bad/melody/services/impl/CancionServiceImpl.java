@@ -41,10 +41,9 @@ public class CancionServiceImpl implements CancionService {
      *para guardar un nuevo cancion en la base de datos
      */
     @Override
-    public Cancion ingresarCancionNueva(Cancion CancionNueva) {
+    public Cancion guardarCancion(Cancion CancionNueva) {
         return cancionRepository.save(CancionNueva);
     }
-
     /*En este metodo estamos llamando al repositorio para utilizar el metodo jpa,
      *para actualizar el cancion en la base de datos
      */
@@ -80,8 +79,4 @@ public class CancionServiceImpl implements CancionService {
             return false;
         }
     }
-
-    
-
-
 }
