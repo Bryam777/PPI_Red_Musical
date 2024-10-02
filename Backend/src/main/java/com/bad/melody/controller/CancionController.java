@@ -24,12 +24,12 @@ public class CancionController {
     private CancionServiceImpl cancionServiceImpl;
 
     @DeleteMapping("/{id}")
-    public String eliminarCancionPorId (@PathVariable("id") Long id){
+    public ResponseEntity<String> eliminarCancionPorId (@PathVariable("id") Long id){
         boolean verificar = cancionServiceImpl.eliminarCancion(id);
         if (verificar) {
-            return "La cancion se elimino exitosamente";
+            return ResponseEntity.ok("La cancion se elimino exitosamente");
         }else{
-            return "No se pudo eliminar la cancion";
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("No se pudo eliminar la cancion");
         }
     }
 
