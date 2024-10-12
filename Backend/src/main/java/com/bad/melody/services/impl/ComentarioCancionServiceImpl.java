@@ -1,5 +1,6 @@
 package com.bad.melody.services.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +66,31 @@ public class ComentarioCancionServiceImpl implements ComentarioCancionService {
 
     return sumaCalificaciones / promedio.size();
     }
-    /*
-     */
+
+    @Override
+    public ComentarioCancion dejarComentario(Long cancionId, Long usuarioId, String comentario) {
+        //Se hace una condicional con OR para verificar que si los campos estan vacios lleve una excepcion
+        //cada campo, porque si se realiza END va ha validar toda la linea y no parametro por parametro
+        if (cancionId == null || usuarioId == null || comentario.trim().isEmpty()) {
+            throw new IllegalArgumentException("Error al subir comentario");
+        }
+        //Se crea una nueva instancia de comentarioCancion para introducir el comentario
+        //Se utiliza el id de usuario y cancion para saber, aquien va asociado el comentario
+            ComentarioCancion nuevoComentario = new ComentarioCancion();
+            nuevoComentario.setId(cancionId);
+            nuevoComentario.setId(usuarioId);
+            nuevoComentario.setComentarios(comentario);
+            nuevoComentario.setFechaComentario(LocalDateTime.now());
+            return comentarioCancionRepository.save(nuevoComentario);
+    }
+
+    @Override
+    public List<ComentarioCancion> obtenerComentarioPorCancion(Long idCancion) {
+        //Se verifica que la cancion se encuentre en la base de datos
+        if (idCancion == null) {
+            throw new IllegalArgumentException("Nose encontro la cancion");
+        }
+        //se creo un metodo en JpaRepository como lista pata poder obtener los comentarios por id de cada cancion
+        return comentarioCancionRepository.findByCancion(idCancion);
+    }
 }

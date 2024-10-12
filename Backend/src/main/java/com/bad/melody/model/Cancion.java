@@ -24,7 +24,7 @@ public class Cancion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_Cancion")
-    private Long id;
+    private Long idCancion;
 
     @Column(name = "titulo", nullable = false)
     private String tituloCancion;

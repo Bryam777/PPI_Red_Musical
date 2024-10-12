@@ -20,7 +20,6 @@ import com.bad.melody.services.UsuarioService;
 public class UsuarioController {
 
     @Autowired
-
     private final UsuarioService usuarioServiceImpl;
 
     public UsuarioController(UsuarioService usuarioServiceImpl) {
