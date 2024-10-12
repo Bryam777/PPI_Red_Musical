@@ -15,4 +15,6 @@ public interface ComentarioCancionService {
     ComentarioCancion dejarComentario(Long cancionId, Long usuarioId, String comentario);
 
     List<ComentarioCancion> obtenerComentarioPorCancion (Long idCancion);
+
+    List<ComentarioCancion> calificar ( Cancion cancionId, Usuario usuarioId, int calificacion, String comentario);
 }

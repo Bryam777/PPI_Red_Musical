@@ -13,8 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bad.melody.model.Cancion;
 import com.bad.melody.model.ComentarioCancion;
+import com.bad.melody.model.Usuario;
+import com.bad.melody.services.impl.CancionServiceImpl;
 import com.bad.melody.services.impl.ComentarioCancionServiceImpl;
+import com.bad.melody.services.impl.UsuarioServiceImpl;
 
 @RestController
 @RequestMapping("/api/comentarioCanciones")
@@ -22,6 +26,12 @@ public class ComentarioCancionController {
 
     @Autowired
     ComentarioCancionServiceImpl comentarioCancionServiceImpl;
+
+    @Autowired
+    CancionServiceImpl cancionServiceImpl;
+
+    @Autowired
+    UsuarioServiceImpl usuarioServiceImpl;
     
     @PostMapping("/ingresar-comentario")
     public ResponseEntity <ComentarioCancion> nuevoComentario(@RequestParam Long cancionId,@RequestParam Long usuarioId, @RequestParam String comentario ){
@@ -53,6 +63,24 @@ public class ComentarioCancionController {
             comentarioCancion.getUsuario(),
             comentarioCancion.getCalificacion()
         );
-        return ResponseEntity.ok("Calificación registrada con éxito");
+        return ResponseEntity.ok("Calificación registrada con éxito");}
+
+    /*  @PostMapping("/calificar-comentario/{cancionId}")
+        public ResponseEntity<List<C*/
+
+
+        @PostMapping("/{cancionId}/calificar")
+        public ResponseEntity<List<ComentarioCancion>> calificarCancion( @PathVariable Long cancionId, @RequestParam Long usuarioId, @RequestParam int calificacion,@RequestParam String comentario) {
+    
+            try {
+            Cancion cancion = cancionServiceImpl.obtenerCancionPorId(cancionId);
+            Usuario usuario = usuarioServiceImpl.obtenerUsuarioPorId(usuarioId);
+
+                List<ComentarioCancion> resultado = comentarioCancionServiceImpl.calificar(cancion, usuario, calificacion, comentario);
+                return ResponseEntity.ok(resultado); // Retorna un 200 OK con la lista de resultados
+            } catch (IllegalArgumentException e) {
+                return ResponseEntity.badRequest().body(null); // Retorna un 400 Bad Request en caso de error
+            }
+        }
     }
-}
+

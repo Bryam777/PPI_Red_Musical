@@ -1,6 +1,7 @@
 package com.bad.melody.services.impl;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,7 @@ import com.bad.melody.model.Usuario;
 import com.bad.melody.repository.CancionRepository;
 import com.bad.melody.repository.ComentarioCancionRepository;
 import com.bad.melody.repository.UsuarioRepository;
-import com.bad.melody.services.ComentarioCancionService;
-
+import com.bad.melody.services.ComentarioCancionService;;
 @Service
 public class ComentarioCancionServiceImpl implements ComentarioCancionService {
 
@@ -29,7 +29,7 @@ public class ComentarioCancionServiceImpl implements ComentarioCancionService {
     @Override
     public void calificacionCancion(Cancion cancionId, Usuario usuarioId, int calificacion) {
         //Se esta dando una calificacion entre 1 a 5
-        if (calificacion < 0 && calificacion > 6) {
+        if (calificacion < 0 || calificacion > 6) {
             throw new IllegalArgumentException("La calificación debe estar entre 1 y 5");
         }
         //Se esta creando una instancia de la clase comentarioCancion
@@ -92,5 +92,36 @@ public class ComentarioCancionServiceImpl implements ComentarioCancionService {
         }
         //se creo un metodo en JpaRepository como lista pata poder obtener los comentarios por id de cada cancion
         return comentarioCancionRepository.findByCancion(idCancion);
+    }
+
+    @Override
+    public List<ComentarioCancion> calificar( Cancion cancionId, Usuario usuarioId, int calificacion, String comentario) {
+
+        if (calificacion < 1 || calificacion > 5) {
+            throw new IllegalArgumentException("La calificación debe estar entre 1 y 5");
+        }
+    
+        // 2. Verificar que los parámetros no sean nulos o inválidos
+        if (cancionId == null || usuarioId == null || comentario.trim().isEmpty()) {
+            throw new IllegalArgumentException("Error al subir comentario: datos inválidos");
+        }
+    
+        
+        ComentarioCancion valoracion = new ComentarioCancion();
+        valoracion.setCancion(cancionId);
+        valoracion.setUsuario(usuarioId);
+        valoracion.setCalificacion(calificacion);
+        
+        comentarioCancionRepository.save(valoracion);
+        
+        ComentarioCancion nuevoComentario = new ComentarioCancion();
+        nuevoComentario.setCancion(cancionId);
+        nuevoComentario.setUsuario(usuarioId);
+        nuevoComentario.setComentarios(comentario);
+        nuevoComentario.setFechaComentario(LocalDateTime.now());
+
+        comentarioCancionRepository.save(nuevoComentario);
+
+        return Arrays.asList(valoracion, nuevoComentario );
     }
 }
