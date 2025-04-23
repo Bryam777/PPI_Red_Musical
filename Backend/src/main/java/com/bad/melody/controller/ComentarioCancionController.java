@@ -57,17 +57,12 @@ public class ComentarioCancionController {
 
     @PostMapping("/calificar")
     public ResponseEntity<String> calificarCancion(@RequestBody ComentarioCancion comentarioCancion) {
-        // Llamamos al servicio para calificar la canción
         comentarioCancionServiceImpl.calificacionCancion(
             comentarioCancion.getCancion(),
             comentarioCancion.getUsuario(),
             comentarioCancion.getCalificacion()
         );
         return ResponseEntity.ok("Calificación registrada con éxito");}
-
-    /*  @PostMapping("/calificar-comentario/{cancionId}")
-        public ResponseEntity<List<C*/
-
 
         @PostMapping("/{cancionId}/calificar")
         public ResponseEntity<List<ComentarioCancion>> calificarCancion( @PathVariable Long cancionId, @RequestParam Long usuarioId, @RequestParam int calificacion,@RequestParam String comentario) {
@@ -77,9 +72,9 @@ public class ComentarioCancionController {
             Usuario usuario = usuarioServiceImpl.obtenerUsuarioPorId(usuarioId);
 
                 List<ComentarioCancion> resultado = comentarioCancionServiceImpl.calificar(cancion, usuario, calificacion, comentario);
-                return ResponseEntity.ok(resultado); // Retorna un 200 OK con la lista de resultados
+                return ResponseEntity.ok(resultado);
             } catch (IllegalArgumentException e) {
-                return ResponseEntity.badRequest().body(null); // Retorna un 400 Bad Request en caso de error
+                return ResponseEntity.badRequest().body(null);
             }
         }
     }
