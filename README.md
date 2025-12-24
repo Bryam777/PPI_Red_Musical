@@ -1,9 +1,41 @@
 # Aplicación web de subida y reproducción de canciones
 
-Esta aplicación web permite a los usuarios (cantautores) subir y compartir sus canciones, así como escuchar las canciones de otros usuarios.
+Plataforma web donde cantautores pueden subir, gestionar y compartir sus canciones, con reproducción en línea y almacenamiento de archivos multimedia en Firebase.
 
-## todas las dependencias que se solicitan para el Frontend
+## Tecnologias utilizadas
+### Frontend
+* React
+* React Router
+* Axios
+* Firibase (Almacenamineto de archivos ultimedia)
+* Bootstrap / React-Bootstrap
+* Styled Components
 
+### Backend
+* Java
+* Spring Boot
+* MySqQL
+
+## Arquitectura general
+* Frontend: React consume una API REST
+* Backend: Spring Boot expone servicios REST
+* Base de datos: MySQL
+* Archivos multimedia: Firebase Storage
+
+## Funcionalidades
+* Registro e inicio de sesión de usuarios
+* Subida de canciones
+* Reproducción de audio
+* Comentarios en canciones y calificacion
+* Playlist
+
+## Ejecucion proyecto
+
+### Backend
+* Configurar application.properties
+* Ejecutar desde Spring Boot
+
+### Frontend
 * npm install react-router-dom
 * npm install axios
 * npm install firebase
@@ -11,45 +43,12 @@ Esta aplicación web permite a los usuarios (cantautores) subir y compartir sus 
 * npm install bootstrap
 * npm install react-bootstrap
 * npm install lucide-react
+  
+## Almacenamiento de archivos
+Las canciones e imágenes no se almacenan en la base de datos,
+sino en Firebase Storage.  
 
-## Estructura de la base de datos
-
-La aplicación cuenta con las siguientes tablas en la base de datos MySQL:
-
-* **tbl_generos**
-  * `id_genero` (INT, Primary Key)
-  * `nombre_genero` (VARCHAR)
-
-* **tbl_usuarios**
-  * `id_usuario` (INT, Primary Key) 
-  * `usuario` (VARCHAR)
-  * `email` (VARCHAR)
-  * `fecha_registro` (DATETIME)
-  * `imagen` (VARCHAR)
-  * `nombre` (VARCHAR)
-  * `rol` (VARCHAR)
-  * `id_genero` (INT, Foreign Key referencing `tbl_generos`)
-
-* **tbl_canciones**
-  * `id_cancion` (INT, Primary Key)
-  * `descripcion` (TEXT)
-  * `archivo` (VARCHAR)
-  * `fecha_subida` (DATE)
-  * `imagen` (VARCHAR)
-  * `titulo` (VARCHAR)
-  * `letra` (TEXT)
-  * `id_usuario` (INT, Foreign Key referencing `tbl_usuarios`)
-  * `id_genero` (INT, Foreign Key referencing `tbl_generos`)
-
-* **tbl_comentario_cancion**
-  * `id_comentario` (INT, Primary Key)
-  * `id_cancion` (INT, Foreign Key referencing `tbl_canciones`)
-  * `comentario` (TEXT)
-  * `fecha_comentario` (DATETIME)
-  * `id_usuario` (INT, Foreign Key referencing `tbl_usuarios`)
-  * `id_respuesta` (INT, Foreign Key referencing `tbl_comentario_cancion`)
-
-## Instrucciones de inserción de datos
+### Instrucciones de inserción de datos
 
 Para insertar los datos proporcionados en las tablas correspondientes, ejecuta las siguientes consultas SQL:
 
@@ -65,3 +64,4 @@ INSERT INTO `tbl_canciones` VALUES (1,'Una declaración juvenil de amor, captura
 
 -- Insertar comentarios de canciones
 INSERT INTO `tbl_comentario_cancion` VALUES (4,5,'Este es un comentario sobre la canción.','2024-10-15 17:00:00.000000',1,3022222222),(5,4,'Este es un comentario sobre la canción.','2024-10-15 17:00:00.000000',1,3011111111),(6,4,'Este es un comentario sobre la canción.','2024-10-15 17:00:00.000000',2,3033333333),(7,5,'hola prueba do2','2024-10-17 03:58:18.725000',2,3101010101),(8,1,'hola marca\n','2024-10-17 04:04:35.689000',2,3101010101),(9,5,'buena cancion xd','2024-10-17 04:34:16.311000',2,3101010101),(10,5,'hola amorcito','2024-10-17 04:40:35.548000',2,3101010101),(11,1,'cagada de cancion','2024-10-17 04:40:46.681000',2,3101010101);
+
